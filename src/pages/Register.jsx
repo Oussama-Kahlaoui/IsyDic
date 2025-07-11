@@ -1,79 +1,125 @@
 import { useState } from 'react';
 
-export default function Register() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+export default function RegisterResidence() {
+  const [residenceName, setResidenceName] = useState('');
+  const [address, setAddress] = useState('');
+  const [floors, setFloors] = useState('');
+  const [apartments, setApartments] = useState('');
+  const [status, setStatus] = useState('active');
+  const [userName, setUserName] = useState('');
+  const [etage, setEtage] = useState('');
   const [error, setError] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!name || !email || !password) {
-      setError('Please fill in all fields.');
+    if (!residenceName || !address || !floors || !apartments || !userName || !etage) {
+      setError('Please fill in all required fields.');
       return;
     }
     setError('');
-    // TODO: Add registration logic here
-    alert('Register submitted!');
+    // TODO: send form data to Laravel API
+    alert('Residence registered!');
   };
 
   return (
-    <div
-      className="flex min-h-screen items-center justify-center bg-slate-50"
-      style={{
-        backgroundImage: 'url(https://images.unsplash.com/photo-1746532576894-a52ca7cedb09?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
-    >
-      <div className="bg-white bg-opacity-90 p-8 rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-4 text-center">Register</h1>
+    <div className="flex min-h-screen items-center justify-center bg-slate-50">
+      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-lg">
+        <h1 className="text-2xl font-bold mb-6 text-center">Register Residence</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Residence Info */}
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
+            <label className="block text-sm font-medium text-gray-700">Residence Name</label>
             <input
-              id="name"
               type="text"
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-              value={name}
-              onChange={e => setName(e.target.value)}
-              autoComplete="name"
+              value={residenceName}
+              onChange={e => setResidenceName(e.target.value)}
+              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
               required
             />
           </div>
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+            <label className="block text-sm font-medium text-gray-700">Address</label>
             <input
-              id="email"
-              type="email"
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              autoComplete="email"
+              type="text"
+              value={address}
+              onChange={e => setAddress(e.target.value)}
+              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
               required
             />
           </div>
+          <div className="flex gap-4">
+            <div className="flex-1">
+              <label className="block text-sm font-medium text-gray-700">Floors</label>
+              <input
+                type="number"
+                min="1"
+                value={floors}
+                onChange={e => setFloors(e.target.value)}
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                required
+              />
+            </div>
+            <div className="flex-1">
+              <label className="block text-sm font-medium text-gray-700">Apartments</label>
+              <input
+                type="number"
+                min="1"
+                value={apartments}
+                onChange={e => setApartments(e.target.value)}
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                required
+              />
+            </div>
+          </div>
+
+          {/* Resident Info */}
+          <div className="flex gap-4">
+            <div className="flex-1">
+              <label className="block text-sm font-medium text-gray-700">Resident Name</label>
+              <input
+                type="text"
+                value={userName}
+                onChange={e => setUserName(e.target.value)}
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                required
+              />
+            </div>
+            <div className="flex-1">
+              <label className="block text-sm font-medium text-gray-700">Étage</label>
+              <input
+                type="number"
+                min="0"
+                value={etage}
+                onChange={e => setEtage(e.target.value)}
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                required
+              />
+            </div>
+          </div>
+
+          {/* Status */}
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
-            <input
-              id="password"
-              type="password"
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              autoComplete="new-password"
-              required
-            />
+            <label className="block text-sm font-medium text-gray-700">Status</label>
+            <select
+              value={status}
+              onChange={e => setStatus(e.target.value)}
+              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+            >
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
           </div>
-          {error && <div className="text-red-500 text-sm">{error}</div>}
+
+          {/* Error + Submit */}
+          {error && <p className="text-red-500 text-sm">{error}</p>}
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
-            Register
+            Submit
           </button>
         </form>
       </div>
     </div>
   );
-} 
+}

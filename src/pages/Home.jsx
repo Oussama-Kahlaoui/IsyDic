@@ -2,17 +2,17 @@
 import { Link } from 'react-router-dom';
 const testimonials = [
     {
-      img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBs2GIKGNE0-NdOLMLKdrcpaN74krmyqRnNUbyAIEUUuh35eYivuzehPkZDkfiFP_uvkUmjk6BshFEV2owoXZOMlBmgByRlKLkNq5M-xx8FxgPSTsqh7vzztVvF-Hvyg6zA3Ne0-JMMzdOFOF7tZz3nZSrBzJQ-GjsYF3DXETysXYpIdpk2KM2sOa84y43NdQ6KbQjXjpOhtOGqCRzABJgogKI_9PTDyF_MIHDAcnXh5GeifVOXTlB9HzPSMFK3OfWuTezmVDbCS9Q",
+      img: "https://images.unsplash.com/photo-1609054841737-9feb7029bd7b?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       quote: "ResidenceConnect has transformed our community management. It's intuitive and efficient.",
-      name: "Sarah Miller, Resident"
+      name: "Fatima Zahra Bouziane"
     },
     {
-      img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAE2kp_28XJKE2lzFwgsL--DoowcgRMVCnT2f7m46Z4miWB1HgvAE3ZnD3XHwWQ1X0SrnKawFFv1IGGFrS1Xt6LwMxtV_yd6Wy0IlItlyMy2eNWmrZxqHFSz9xiOFrl_bRfei_tTSkAV1JswUERsYCwAMEjKVzYJ5CyinlPH_7iN47beEKDR0tIcbuWY8WWwV8cPvya_Kxy8rnYP2f6OwXSxH36iib1KoLyjGzhD2idkp_xrp-kKrDYyudVj71OLI39CXzHplbTORw",
+      img: "https://images.unsplash.com/photo-1500281781950-6cd80847ebcd?q=80&w=1169&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       quote: "The charge management feature has made tracking payments so much easier.",
       name: "David Chen, Administrator"
     },
     {
-      img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBQEGczgumaHf2NLQggEiB7Y4V0YJPivC-IfgBJrQFPZaDezDX1-sV-6oeX7OzI8hE6Xd18AsY0sJ_qkTqq71VKrMfVkFViqCKqq82pqRZ9OWnQv9A3uuBBwgGWTCl9T2iyFu_XEBXfwFYJFyRjtdjJUMGlwEmymJihRqWFAoEApggG81y85xFc_hpsYOZ9PV6xIO1bmI1VSzzVHU5Z89gVt2kJpw4QObotIow_7NEF3Q1uVB8lwnneRdc_oiN0xEcGKVnuCc1oa6s",
+      img: "https://images.unsplash.com/photo-1639490204002-e38aef42e021?q=80&w=1050&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       quote: "Scheduling meetings is a breeze with ResidenceConnect. Highly recommended!",
       name: "Emily Rodriguez, Resident"
     }
@@ -46,9 +46,6 @@ const testimonials = [
                 <Link to="/login" className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#1978e5] text-slate-50 text-sm font-bold leading-normal tracking-[0.015em]">
                   <span className="truncate">Login</span>
                 </Link>
-                <Link to="/register" className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#e7edf3] text-[#0e141b] text-sm font-bold leading-normal tracking-[0.015em]">
-                  <span className="truncate">Register</span>
-                </Link>
               </div>
             </div>
           </header>
@@ -72,14 +69,6 @@ const testimonials = [
                       <h2 className="text-white text-sm font-normal leading-normal md:text-base md:font-normal md:leading-normal">
                         ResidenceConnect simplifies community living, offering seamless management for residents and administrators. From managing charges to scheduling meetings, we've got you covered.
                       </h2>
-                    </div>
-                    <div className="flex-wrap gap-3 flex justify-center">
-                      <Link to="/login" className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 md:h-12 md:px-5 bg-[#1978e5] text-slate-50 text-sm font-bold leading-normal tracking-[0.015em] md:text-base md:font-bold md:leading-normal md:tracking-[0.015em]">
-                        <span className="truncate">Login</span>
-                      </Link>
-                      <Link to="/register" className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 md:h-12 md:px-5 bg-[#e7edf3] text-[#0e141b] text-sm font-bold leading-normal tracking-[0.015em] md:text-base md:font-bold md:leading-normal md:tracking-[0.015em]">
-                        <span className="truncate">Register</span>
-                      </Link>
                     </div>
                   </div>
                 </div>
