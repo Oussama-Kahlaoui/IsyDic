@@ -1,13 +1,81 @@
 import { useAuth } from '../context/useAuth';
 import { useNavigate, Link } from 'react-router-dom';
+import { useState } from 'react';
 
 export default function Residences() {
   const { logout } = useAuth();
   const navigate = useNavigate();
 
+  // Initial residences data
+  const [residences, setResidences] = useState([
+    { id: 1, address: '123 Oak Street, Apt 1A', floors: 3 },
+    { id: 2, address: '456 Maple Avenue, Apt 2B', floors: 2 },
+    { id: 3, address: '789 Pine Lane, Apt 3C', floors: 4 },
+    { id: 4, address: '101 Cedar Road, Apt 4D', floors: 3 },
+    { id: 5, address: '222 Birch Court, Apt 5E', floors: 2 },
+  ]);
+
+  // State for add/edit form
+  const [form, setForm] = useState({ address: '', floors: '' });
+  const [isEditing, setIsEditing] = useState(false);
+  const [editId, setEditId] = useState(null);
+  const [showForm, setShowForm] = useState(false);
+
   const handleLogout = () => {
     logout();
     navigate('/login');
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleAddClick = () => {
+    setForm({ address: '', floors: '' });
+    setIsEditing(false);
+    setEditId(null);
+    setShowForm(true);
+  };
+
+  const handleEditClick = (residence) => {
+    setForm({ address: residence.address, floors: residence.floors });
+    setIsEditing(true);
+    setEditId(residence.id);
+    setShowForm(true);
+  };
+
+  const handleDeleteClick = (id) => {
+    setResidences((prev) => prev.filter((r) => r.id !== id));
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    if (!form.address.trim() || !form.floors) return;
+    if (isEditing) {
+      setResidences((prev) =>
+        prev.map((r) =>
+          r.id === editId ? { ...r, address: form.address, floors: Number(form.floors) } : r
+        )
+      );
+    } else {
+      const newId = residences.length ? Math.max(...residences.map((r) => r.id)) + 1 : 1;
+      setResidences((prev) => [
+        ...prev,
+        { id: newId, address: form.address, floors: Number(form.floors) },
+      ]);
+    }
+    setShowForm(false);
+    setForm({ address: '', floors: '' });
+    setIsEditing(false);
+    setEditId(null);
+  };
+
+  const handleCancel = () => {
+    setShowForm(false);
+    setForm({ address: '', floors: '' });
+    setIsEditing(false);
+    setEditId(null);
   };
 
   return (
@@ -42,16 +110,14 @@ export default function Residences() {
                     </div>
                     <p className="text-[#0e141b] text-sm font-medium leading-normal">Residences</p>
                   </div>
-                  <div className="flex items-center gap-3 px-3 py-2">
+                  <Link to="/charges" className="flex items-center gap-3 px-3 py-2 hover:bg-[#e7edf3] rounded-lg transition-colors">
                     <div className="text-[#0e141b]" data-icon="CurrencyDollar" data-size="24px" data-weight="regular">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                        <path
-                          d="M152,120H136V56h8a32,32,0,0,1,32,32,8,8,0,0,0,16,0,48.05,48.05,0,0,0-48-48h-8V24a8,8,0,0,0-16,0V40h-8a48,48,0,0,0,0,96h8v64H104a32,32,0,0,1-32-32,8,8,0,0,0-16,0,48.05,48.05,0,0,0,48,48h16v16a8,8,0,0,0,16,0V216h16a48,48,0,0,0,0-96Zm-40,0a32,32,0,0,1,0-64h8v64Zm40,80H136V136h16a32,32,0,0,1,0,64Z"
-                        ></path>
+                        <path d="M152,120H136V56h8a32,32,0,0,1,32,32,8,8,0,0,0,16,0,48.05,48.05,0,0,0-48-48h-8V24a8,8,0,0,0-16,0V40h-8a48,48,0,0,0,0,96h8v64H104a32,32,0,0,1-32-32,8,8,0,0,0-16,0,48.05,48.05,0,0,0,48,48h16v16a8,8,0,0,0,16,0V216h16a48,48,0,0,0,0-96Zm-40,0a32,32,0,0,1,0-64h8v64Zm40,80H136V136h16a32,32,0,0,1,0,64Z" />
                       </svg>
                     </div>
                     <p className="text-[#0e141b] text-sm font-medium leading-normal">Charges</p>
-                  </div>
+                  </Link>
                   <div className="flex items-center gap-3 px-3 py-2">
                     <div className="text-[#0e141b]" data-icon="Flag" data-size="24px" data-weight="regular">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
@@ -114,11 +180,45 @@ export default function Residences() {
               <p className="text-[#0e141b] tracking-light text-[32px] font-bold leading-tight min-w-72">Residences</p>
               <button
                 className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 bg-[#e7edf3] text-[#0e141b] text-sm font-medium leading-normal"
+                onClick={handleAddClick}
               >
                 <span className="truncate">Add Residence</span>
               </button>
             </div>
             <div className="px-4 py-3 @container">
+              {showForm && (
+                <form onSubmit={handleFormSubmit} className="mb-4 flex gap-2 items-end flex-wrap bg-white p-4 rounded-lg border border-[#d0dbe7]">
+                  <div>
+                    <label className="block text-sm font-medium text-[#0e141b]">Address</label>
+                    <input
+                      type="text"
+                      name="address"
+                      value={form.address}
+                      onChange={handleInputChange}
+                      className="border border-[#d0dbe7] rounded px-2 py-1 w-64"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-[#0e141b]">Number of Floors</label>
+                    <input
+                      type="number"
+                      name="floors"
+                      value={form.floors}
+                      onChange={handleInputChange}
+                      className="border border-[#d0dbe7] rounded px-2 py-1 w-24"
+                      min="1"
+                      required
+                    />
+                  </div>
+                  <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium">
+                    {isEditing ? 'Update' : 'Add'}
+                  </button>
+                  <button type="button" onClick={handleCancel} className="ml-2 px-4 py-2 rounded-lg border border-[#d0dbe7] text-[#0e141b] bg-slate-100">
+                    Cancel
+                  </button>
+                </form>
+              )}
               <div className="flex overflow-hidden rounded-lg border border-[#d0dbe7] bg-slate-50">
                 <table className="flex-1">
                   <thead>
@@ -133,51 +233,31 @@ export default function Residences() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="border-t border-t-[#d0dbe7]">
-                      <td className="table-44caeb32-0af4-4ba8-b4ef-4f16798f4d4a-column-120 h-[72px] px-4 py-2 w-[400px] text-[#4e7097] text-sm font-normal leading-normal">
-                        123 Oak Street, Apt 1A
-                      </td>
-                      <td className="table-44caeb32-0af4-4ba8-b4ef-4f16798f4d4a-column-240 h-[72px] px-4 py-2 w-[400px] text-[#4e7097] text-sm font-normal leading-normal">3</td>
-                      <td className="table-44caeb32-0af4-4ba8-b4ef-4f16798f4d4a-column-360 h-[72px] px-4 py-2 w-60 text-[#4e7097] text-sm font-bold leading-normal tracking-[0.015em]">
-                        Edit | Delete
-                      </td>
-                    </tr>
-                    <tr className="border-t border-t-[#d0dbe7]">
-                      <td className="table-44caeb32-0af4-4ba8-b4ef-4f16798f4d4a-column-120 h-[72px] px-4 py-2 w-[400px] text-[#4e7097] text-sm font-normal leading-normal">
-                        456 Maple Avenue, Apt 2B
-                      </td>
-                      <td className="table-44caeb32-0af4-4ba8-b4ef-4f16798f4d4a-column-240 h-[72px] px-4 py-2 w-[400px] text-[#4e7097] text-sm font-normal leading-normal">2</td>
-                      <td className="table-44caeb32-0af4-4ba8-b4ef-4f16798f4d4a-column-360 h-[72px] px-4 py-2 w-60 text-[#4e7097] text-sm font-bold leading-normal tracking-[0.015em]">
-                        Edit | Delete
-                      </td>
-                    </tr>
-                    <tr className="border-t border-t-[#d0dbe7]">
-                      <td className="table-44caeb32-0af4-4ba8-b4ef-4f16798f4d4a-column-120 h-[72px] px-4 py-2 w-[400px] text-[#4e7097] text-sm font-normal leading-normal">
-                        789 Pine Lane, Apt 3C
-                      </td>
-                      <td className="table-44caeb32-0af4-4ba8-b4ef-4f16798f4d4a-column-240 h-[72px] px-4 py-2 w-[400px] text-[#4e7097] text-sm font-normal leading-normal">4</td>
-                      <td className="table-44caeb32-0af4-4ba8-b4ef-4f16798f4d4a-column-360 h-[72px] px-4 py-2 w-60 text-[#4e7097] text-sm font-bold leading-normal tracking-[0.015em]">
-                        Edit | Delete
-                      </td>
-                    </tr>
-                    <tr className="border-t border-t-[#d0dbe7]">
-                      <td className="table-44caeb32-0af4-4ba8-b4ef-4f16798f4d4a-column-120 h-[72px] px-4 py-2 w-[400px] text-[#4e7097] text-sm font-normal leading-normal">
-                        101 Cedar Road, Apt 4D
-                      </td>
-                      <td className="table-44caeb32-0af4-4ba8-b4ef-4f16798f4d4a-column-240 h-[72px] px-4 py-2 w-[400px] text-[#4e7097] text-sm font-normal leading-normal">3</td>
-                      <td className="table-44caeb32-0af4-4ba8-b4ef-4f16798f4d4a-column-360 h-[72px] px-4 py-2 w-60 text-[#4e7097] text-sm font-bold leading-normal tracking-[0.015em]">
-                        Edit | Delete
-                      </td>
-                    </tr>
-                    <tr className="border-t border-t-[#d0dbe7]">
-                      <td className="table-44caeb32-0af4-4ba8-b4ef-4f16798f4d4a-column-120 h-[72px] px-4 py-2 w-[400px] text-[#4e7097] text-sm font-normal leading-normal">
-                        222 Birch Court, Apt 5E
-                      </td>
-                      <td className="table-44caeb32-0af4-4ba8-b4ef-4f16798f4d4a-column-240 h-[72px] px-4 py-2 w-[400px] text-[#4e7097] text-sm font-normal leading-normal">2</td>
-                      <td className="table-44caeb32-0af4-4ba8-b4ef-4f16798f4d4a-column-360 h-[72px] px-4 py-2 w-60 text-[#4e7097] text-sm font-bold leading-normal tracking-[0.015em]">
-                        Edit | Delete
-                      </td>
-                    </tr>
+                    {residences.map((residence) => (
+                      <tr key={residence.id} className="border-t border-t-[#d0dbe7]">
+                        <td className="table-44caeb32-0af4-4ba8-b4ef-4f16798f4d4a-column-120 h-[72px] px-4 py-2 w-[400px] text-[#4e7097] text-sm font-normal leading-normal">
+                          {residence.address}
+                        </td>
+                        <td className="table-44caeb32-0af4-4ba8-b4ef-4f16798f4d4a-column-240 h-[72px] px-4 py-2 w-[400px] text-[#4e7097] text-sm font-normal leading-normal">
+                          {residence.floors}
+                        </td>
+                        <td className="table-44caeb32-0af4-4ba8-b4ef-4f16798f4d4a-column-360 h-[72px] px-4 py-2 w-60 text-[#4e7097] text-sm font-bold leading-normal tracking-[0.015em]">
+                          <button
+                            className="text-blue-600 hover:underline mr-2"
+                            onClick={() => handleEditClick(residence)}
+                          >
+                            Edit
+                          </button>
+                          |
+                          <button
+                            className="text-red-600 hover:underline ml-2"
+                            onClick={() => handleDeleteClick(residence.id)}
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>

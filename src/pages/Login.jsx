@@ -18,7 +18,7 @@ export default function Login() {
     setError('');
     
     try {
-      if (email === "Oussama@syndic.com" && password === "admin@123") {
+      if (email === "oussama@syndic.com" && password === "admin@123") {
         login({ name: "Oussama", role: "admin" });
         navigate("/admin-dashboard");
       } else {

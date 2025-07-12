@@ -41,7 +41,7 @@ export default function AdminDashboard() {
                     </div>
                     <p className="text-[#0e141b] text-sm font-medium leading-normal">Residences</p>
                   </Link>
-                  <div className="flex items-center gap-3 px-3 py-2">
+                  <Link to="/charges" className="flex items-center gap-3 px-3 py-2 hover:bg-[#e7edf3] rounded-lg transition-colors">
                     <div className="text-[#0e141b]" data-icon="CurrencyDollar" data-size="24px" data-weight="regular">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
                         <path
@@ -50,7 +50,7 @@ export default function AdminDashboard() {
                       </svg>
                     </div>
                     <p className="text-[#0e141b] text-sm font-medium leading-normal">Charges</p>
-                  </div>
+                  </Link>
                   <div className="flex items-center gap-3 px-3 py-2">
                     <div className="text-[#0e141b]" data-icon="Flag" data-size="24px" data-weight="regular">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
