@@ -1,10 +1,11 @@
 import { useAuth } from '../context/useAuth';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 
 export default function Residences() {
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Initial residences data
   const [residences, setResidences] = useState([
@@ -118,16 +119,14 @@ export default function Residences() {
                     </div>
                     <p className="text-[#0e141b] text-sm font-medium leading-normal">Charges</p>
                   </Link>
-                  <div className="flex items-center gap-3 px-3 py-2">
+                  <Link to="/incidents" className={`flex items-center gap-3 px-3 py-2 rounded-lg ${location.pathname === '/incidents' ? 'bg-[#e7edf3]' : 'hover:bg-[#e7edf3] transition-colors'}`}>
                     <div className="text-[#0e141b]" data-icon="Flag" data-size="24px" data-weight="regular">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                        <path
-                          d="M34.76,42A8,8,0,0,0,32,48V216a8,8,0,0,0,16,0V171.77c26.79-21.16,49.87-9.75,76.45,3.41,16.4,8.11,34.06,16.85,53,16.85,13.93,0,28.54-4.75,43.82-18a8,8,0,0,0,2.76-6V48A8,8,0,0,0,210.76,42c-28,24.23-51.72,12.49-79.21-1.12C103.07,26.76,70.78,10.79,34.76,42ZM208,164.25c-26.79,21.16-49.87,9.74-76.45-3.41-25-12.35-52.81-26.13-83.55-8.4V51.79c26.79-21.16,49.87-9.75,76.45,3.4,25,12.35,52.82,26.13,83.55,8.4Z"
-                        ></path>
+                        <path d="M34.76,42A8,8,0,0,0,32,48V216a8,8,0,0,0,16,0V171.77c26.79-21.16,49.87-9.75,76.45,3.41,16.4,8.11,34.06,16.85,53,16.85,13.93,0,28.54-4.75,43.82-18a8,8,0,0,0,2.76-6V48A8,8,0,0,0,210.76,42c-28,24.23-51.72,12.49-79.21-1.12C103.07,26.76,70.78,10.79,34.76,42ZM208,164.25c-26.79,21.16-49.87,9.74-76.45-3.41-25-12.35-52.81-26.13-83.55-8.4V51.79c26.79-21.16,49.87-9.75,76.45,3.4,25,12.35,52.82,26.13,83.55,8.4Z" />
                       </svg>
                     </div>
                     <p className="text-[#0e141b] text-sm font-medium leading-normal">Incidents</p>
-                  </div>
+                  </Link>
                   <div className="flex items-center gap-3 px-3 py-2">
                     <div className="text-[#0e141b]" data-icon="Users" data-size="24px" data-weight="regular">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">

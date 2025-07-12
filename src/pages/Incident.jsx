@@ -1,30 +1,61 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/useAuth';
 
-function Charges() {
+function Incident() {
   const { logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const charges = [
-    { charge: 'Maintenance Fee', amount: '$150', status: 'Paid', due: '2023-08-01' },
-    { charge: 'Security Fee', amount: '$50', status: 'Paid', due: '2023-08-01' },
-    { charge: 'Parking Fee', amount: '$25', status: 'Paid', due: '2023-08-01' },
-    { charge: 'Pool Fee', amount: '$75', status: 'Pending', due: '2023-09-01' },
-    { charge: 'Gym Fee', amount: '$50', status: 'Pending', due: '2023-09-01' },
-  ];
-  const meetings = [
-    { title: 'Annual General Meeting', date: '2023-09-15, 10:00 AM' },
-  ];
-  const documents = [
-    { name: 'Building Regulations', uploaded: '2023-08-01' },
-    { name: 'Meeting Minutes', uploaded: '2023-07-15' },
-  ];
+  // Incident form state
+  const [description, setDescription] = useState('');
+  const [category, setCategory] = useState('');
+  const [photo, setPhoto] = useState(null);
+  const [incidents, setIncidents] = useState([
+    {
+      date: '2024-07-26',
+      category: 'Plumbing',
+      description: 'Leaky faucet in the kitchen',
+      status: 'Open',
+    },
+    {
+      date: '2024-07-20',
+      category: 'Electrical',
+      description: 'Faulty light fixture in the hallway',
+      status: 'In Progress',
+    },
+    {
+      date: '2024-07-15',
+      category: 'Security',
+      description: 'Broken lock on the main entrance door',
+      status: 'Closed',
+    },
+  ]);
 
   const handleLogout = () => {
     logout();
     navigate('/login');
+  };
+
+  const handlePhotoChange = (e) => {
+    setPhoto(e.target.files[0]);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!description.trim() || !category) return;
+    setIncidents([
+      {
+        date: new Date().toISOString().slice(0, 10),
+        category,
+        description,
+        status: 'Open',
+      },
+      ...incidents,
+    ]);
+    setDescription('');
+    setCategory('');
+    setPhoto(null);
   };
 
   return (
@@ -115,70 +146,97 @@ function Charges() {
           </div>
           <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
             <div className="flex flex-wrap justify-between gap-3 p-4">
-              <p className="text-[#0e141b] tracking-light text-[32px] font-bold leading-tight min-w-72">My Charges</p>
+              <p className="text-[#0e141b] tracking-light text-[32px] font-bold leading-tight min-w-72">Report an Incident</p>
             </div>
+            <form onSubmit={handleSubmit} className="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+              <label className="flex flex-col min-w-40 flex-1">
+                <textarea
+                  placeholder="Describe the issue"
+                  className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e141b] focus:outline-0 focus:ring-0 border border-[#d0dbe7] bg-slate-50 focus:border-[#d0dbe7] min-h-36 placeholder:text-[#4e7097] p-[15px] text-base font-normal leading-normal"
+                  value={description}
+                  onChange={e => setDescription(e.target.value)}
+                  required
+                />
+              </label>
+              <label className="flex flex-col min-w-40 flex-1">
+                <select
+                  className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e141b] focus:outline-0 focus:ring-0 border border-[#d0dbe7] bg-slate-50 focus:border-[#d0dbe7] h-14 placeholder:text-[#4e7097] p-[15px] text-base font-normal leading-normal"
+                  value={category}
+                  onChange={e => setCategory(e.target.value)}
+                  required
+                >
+                  <option value="">Select Category</option>
+                  <option value="Plumbing">Plumbing</option>
+                  <option value="Electrical">Electrical</option>
+                  <option value="Security">Security</option>
+                  <option value="Other">Other</option>
+                </select>
+              </label>
+              <label className="flex flex-col min-w-40 flex-1">
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  id="incident-photo"
+                  onChange={handlePhotoChange}
+                />
+                <div className="flex flex-col p-4">
+                  <div className="flex flex-col items-center gap-6 rounded-lg border-2 border-dashed border-[#d0dbe7] px-6 py-14">
+                    <div className="flex max-w-[480px] flex-col items-center gap-2">
+                      <p className="text-[#0e141b] text-lg font-bold leading-tight tracking-[-0.015em] max-w-[480px] text-center">Upload Photo (Optional)</p>
+                      <p className="text-[#0e141b] text-sm font-normal leading-normal max-w-[480px] text-center">Drag and drop or browse to upload a photo</p>
+                    </div>
+                    <label htmlFor="incident-photo" className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#e7edf3] text-[#0e141b] text-sm font-bold leading-normal tracking-[0.015em]">
+                      <span className="truncate">Upload Photo</span>
+                    </label>
+                    {photo && <span className="text-[#0e141b] text-xs mt-2">{photo.name}</span>}
+                  </div>
+                </div>
+              </label>
+              <div className="flex px-4 py-3 justify-end w-full">
+                <button
+                  type="submit"
+                  className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#1978e5] text-slate-50 text-sm font-bold leading-normal tracking-[0.015em]"
+                >
+                  <span className="truncate">Submit Incident</span>
+                </button>
+              </div>
+            </form>
+            <h2 className="text-[#0e141b] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Reported Incidents</h2>
             <div className="px-4 py-3 @container">
               <div className="flex overflow-hidden rounded-lg border border-[#d0dbe7] bg-slate-50">
                 <table className="flex-1">
                   <thead>
                     <tr className="bg-slate-50">
-                      <th className="table-ebad5f0f-e09f-425b-8658-67b183976f8c-column-120 px-4 py-3 text-left text-[#0e141b] w-[400px] text-sm font-medium leading-normal">Charge</th>
-                      <th className="table-ebad5f0f-e09f-425b-8658-67b183976f8c-column-240 px-4 py-3 text-left text-[#0e141b] w-[400px] text-sm font-medium leading-normal">Amount</th>
-                      <th className="table-ebad5f0f-e09f-425b-8658-67b183976f8c-column-360 px-4 py-3 text-left text-[#0e141b] w-60 text-sm font-medium leading-normal">Status</th>
-                      <th className="table-ebad5f0f-e09f-425b-8658-67b183976f8c-column-480 px-4 py-3 text-left text-[#0e141b] w-[400px] text-sm font-medium leading-normal">Due Date</th>
+                      <th className="table-f7f97104-2412-4121-ac3a-e41964c7ab43-column-120 px-4 py-3 text-left text-[#0e141b] w-[400px] text-sm font-medium leading-normal">Date</th>
+                      <th className="table-f7f97104-2412-4121-ac3a-e41964c7ab43-column-240 px-4 py-3 text-left text-[#0e141b] w-[400px] text-sm font-medium leading-normal">Category</th>
+                      <th className="table-f7f97104-2412-4121-ac3a-e41964c7ab43-column-360 px-4 py-3 text-left text-[#0e141b] w-[400px] text-sm font-medium leading-normal">Description</th>
+                      <th className="table-f7f97104-2412-4121-ac3a-e41964c7ab43-column-480 px-4 py-3 text-left text-[#0e141b] w-60 text-sm font-medium leading-normal">Status</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {charges.map((c, i) => (
+                    {incidents.map((incident, i) => (
                       <tr key={i} className="border-t border-t-[#d0dbe7]">
-                        <td className="table-ebad5f0f-e09f-425b-8658-67b183976f8c-column-120 h-[72px] px-4 py-2 w-[400px] text-[#0e141b] text-sm font-normal leading-normal">{c.charge}</td>
-                        <td className="table-ebad5f0f-e09f-425b-8658-67b183976f8c-column-240 h-[72px] px-4 py-2 w-[400px] text-[#4e7097] text-sm font-normal leading-normal">{c.amount}</td>
-                        <td className="table-ebad5f0f-e09f-425b-8658-67b183976f8c-column-360 h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
+                        <td className="table-f7f97104-2412-4121-ac3a-e41964c7ab43-column-120 h-[72px] px-4 py-2 w-[400px] text-[#4e7097] text-sm font-normal leading-normal">{incident.date}</td>
+                        <td className="table-f7f97104-2412-4121-ac3a-e41964c7ab43-column-240 h-[72px] px-4 py-2 w-[400px] text-[#4e7097] text-sm font-normal leading-normal">{incident.category}</td>
+                        <td className="table-f7f97104-2412-4121-ac3a-e41964c7ab43-column-360 h-[72px] px-4 py-2 w-[400px] text-[#4e7097] text-sm font-normal leading-normal">{incident.description}</td>
+                        <td className="table-f7f97104-2412-4121-ac3a-e41964c7ab43-column-480 h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
                           <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 bg-[#e7edf3] text-[#0e141b] text-sm font-medium leading-normal w-full">
-                            <span className="truncate">{c.status}</span>
+                            <span className="truncate">{incident.status}</span>
                           </button>
                         </td>
-                        <td className="table-ebad5f0f-e09f-425b-8658-67b183976f8c-column-480 h-[72px] px-4 py-2 w-[400px] text-[#4e7097] text-sm font-normal leading-normal">{c.due}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
               <style>{`
-                @container(max-width:120px){.table-ebad5f0f-e09f-425b-8658-67b183976f8c-column-120{display: none;}}
-                @container(max-width:240px){.table-ebad5f0f-e09f-425b-8658-67b183976f8c-column-240{display: none;}}
-                @container(max-width:360px){.table-ebad5f0f-e09f-425b-8658-67b183976f8c-column-360{display: none;}}
-                @container(max-width:480px){.table-ebad5f0f-e09f-425b-8658-67b183976f8c-column-480{display: none;}}
+                @container(max-width:120px){.table-f7f97104-2412-4121-ac3a-e41964c7ab43-column-120{display: none;}}
+                @container(max-width:240px){.table-f7f97104-2412-4121-ac3a-e41964c7ab43-column-240{display: none;}}
+                @container(max-width:360px){.table-f7f97104-2412-4121-ac3a-e41964c7ab43-column-360{display: none;}}
+                @container(max-width:480px){.table-f7f97104-2412-4121-ac3a-e41964c7ab43-column-480{display: none;}}
               `}</style>
             </div>
-            <h2 className="text-[#0e141b] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Upcoming Meetings</h2>
-            {meetings.map((m, i) => (
-              <div key={i} className="flex items-center gap-4 bg-slate-50 px-4 min-h-[72px] py-2">
-                <div className="text-[#0e141b] flex items-center justify-center rounded-lg bg-[#e7edf3] shrink-0 size-12" data-icon="Users" data-size="24px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,55.53,105.64,95.83,95.83,0,0,1,47.22,37.71A8,8,0,0,1,250.14,206.7Z" />
-                  </svg>
-                </div>
-                <div className="flex flex-col justify-center">
-                  <p className="text-[#0e141b] text-base font-medium leading-normal line-clamp-1">{m.title}</p>
-                  <p className="text-[#4e7097] text-sm font-normal leading-normal line-clamp-2">{m.date}</p>
-                </div>
-              </div>
-            ))}
-            <h2 className="text-[#0e141b] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Documents</h2>
-            {documents.map((d, i) => (
-              <div key={i} className="flex items-center gap-4 bg-slate-50 px-4 min-h-[72px] py-2">
-                <div className="text-[#0e141b] flex items-center justify-center rounded-lg bg-[#e7edf3] shrink-0 size-12" data-icon="File" data-size="24px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Z" />
-                  </svg>
-                </div>
-                <div className="flex flex-col justify-center">
-                  <p className="text-[#0e141b] text-base font-medium leading-normal line-clamp-1">{d.name}</p>
-                  <p className="text-[#4e7097] text-sm font-normal leading-normal line-clamp-2">Uploaded on {d.uploaded}</p>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </div>
@@ -186,4 +244,4 @@ function Charges() {
   );
 }
 
-export default Charges; 
+export default Incident; 

@@ -5,6 +5,7 @@ import Register from './pages/Register';
 import AdminDashboard from "./pages/AdminDashboard";
 import Residences from "./pages/Residences";
 import Charges from "./pages/Charges";
+import Incident from './pages/Incident';
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/residences" element={<Residences />} />
         <Route path="/charges" element={<Charges />} />
+        <Route path="/incidents" element={<Incident />} />
       </Routes>
     </Router>
   );
