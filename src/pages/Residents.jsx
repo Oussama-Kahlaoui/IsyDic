@@ -2,24 +2,16 @@ import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/useAuth';
 
-function Charges() {
+function Residents() {
   const { logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const charges = [
-    { charge: 'Maintenance Fee', amount: '$150', status: 'Paid', due: '2023-08-01' },
-    { charge: 'Security Fee', amount: '$50', status: 'Paid', due: '2023-08-01' },
-    { charge: 'Parking Fee', amount: '$25', status: 'Paid', due: '2023-08-01' },
-    { charge: 'Pool Fee', amount: '$75', status: 'Pending', due: '2023-09-01' },
-    { charge: 'Gym Fee', amount: '$50', status: 'Pending', due: '2023-09-01' },
-  ];
-  const meetings = [
-    { title: 'Annual General Meeting', date: '2023-09-15, 10:00 AM' },
-  ];
-  const documents = [
-    { name: 'Building Regulations', uploaded: '2023-08-01' },
-    { name: 'Meeting Minutes', uploaded: '2023-07-15' },
+  const residents = [
+    { name: 'Fatima Zahra Bouziane', unit: '1A', phone: '0612345678', status: 'Active' },
+    { name: 'David Chen', unit: '2B', phone: '0623456789', status: 'Active' },
+    { name: 'Emily Rodriguez', unit: '3C', phone: '0634567890', status: 'Inactive' },
+    { name: 'Oussama El Amrani', unit: '4D', phone: '0645678901', status: 'Active' },
   ];
 
   const handleLogout = () => {
@@ -40,14 +32,14 @@ function Charges() {
                   </Link>
                 </div>
                 <div className="flex flex-col gap-2">
-                  <div className={`flex items-center gap-3 px-3 py-2 rounded-lg ${location.pathname === '/admin-dashboard' ? 'bg-[#e7edf3]' : 'hover:bg-[#e7edf3] transition-colors'}`}>
+                  <Link to="/admin-dashboard" className={`flex items-center gap-3 px-3 py-2 rounded-lg ${location.pathname === '/admin-dashboard' ? 'bg-[#e7edf3]' : 'hover:bg-[#e7edf3] transition-colors'}`}>
                     <div className="text-[#0e141b]" data-icon="House" data-size="24px" data-weight="fill">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
                         <path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z" />
                       </svg>
                     </div>
                     <p className="text-[#0e141b] text-sm font-medium leading-normal">Overview</p>
-                  </div>
+                  </Link>
                   <Link to="/residences" className={`flex items-center gap-3 px-3 py-2 rounded-lg ${location.pathname === '/residences' ? 'bg-[#e7edf3]' : 'hover:bg-[#e7edf3] transition-colors'}`}>
                     <div className="text-[#0e141b]" data-icon="Buildings" data-size="24px" data-weight="regular">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
@@ -75,9 +67,7 @@ function Charges() {
                   <Link to="/residents" className={`flex items-center gap-3 px-3 py-2 rounded-lg ${location.pathname === '/residents' ? 'bg-[#e7edf3]' : 'hover:bg-[#e7edf3] transition-colors'}`}>
                     <div className="text-[#0e141b]" data-icon="Users" data-size="24px" data-weight="regular">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                        <path
-                          d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,55.53,105.64,95.83,95.83,0,0,1,47.22,37.71A8,8,0,0,1,250.14,206.7Z"
-                        ></path>
+                        <path d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,55.53,105.64,95.83,95.83,0,0,1,47.22,37.71A8,8,0,0,1,250.14,206.7Z" />
                       </svg>
                     </div>
                     <p className="text-[#0e141b] text-sm font-medium leading-normal">Residents</p>
@@ -85,9 +75,7 @@ function Charges() {
                   <Link to="/meetings" className={`flex items-center gap-3 px-3 py-2 rounded-lg ${location.pathname === '/meetings' ? 'bg-[#e7edf3]' : 'hover:bg-[#e7edf3] transition-colors'}`}>
                     <div className="text-[#0e141b]" data-icon="Calendar" data-size="24px" data-weight="regular">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                        <path
-                          d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-96-88v64a8,8,0,0,1-16,0V132.94l-4.42,2.22a8,8,0,0,1-7.16-14.32l16-8A8,8,0,0,1,112,120Zm59.16,30.45L152,176h16a8,8,0,0,1,0,16H136a8,8,0,0,1-6.4-12.8l28.78-38.37A8,8,0,1,0,145.07,132a8,8,0,1,1-13.85-8A24,24,0,0,1,176,136,23.76,23.76,0,0,1,171.16,150.45Z"
-                        ></path>
+                        <path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-96-88v64a8,8,0,0,1-16,0V132.94l-4.42,2.22a8,8,0,0,1-7.16-14.32l16-8A8,8,0,0,1,112,120Zm59.16,30.45L152,176h16a8,8,0,0,1,0,16H136a8,8,0,0,1-6.4-12.8l28.78-38.37A8,8,0,1,0,145.07,132a8,8,0,1,1-13.85-8A24,24,0,0,1,176,136,23.76,23.76,0,0,1,171.16,150.45Z" />
                       </svg>
                     </div>
                     <p className="text-[#0e141b] text-sm font-medium leading-normal">Meetings</p>
@@ -95,9 +83,7 @@ function Charges() {
                   <Link to="/documents" className={`flex items-center gap-3 px-3 py-2 rounded-lg ${location.pathname === '/documents' ? 'bg-[#e7edf3]' : 'hover:bg-[#e7edf3] transition-colors'}`}>
                     <div className="text-[#0e141b]" data-icon="File" data-size="24px" data-weight="regular">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                        <path
-                          d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Z"
-                        ></path>
+                        <path d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Z" />
                       </svg>
                     </div>
                     <p className="text-[#0e141b] text-sm font-medium leading-normal">Documents</p>
@@ -121,70 +107,36 @@ function Charges() {
           </div>
           <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
             <div className="flex flex-wrap justify-between gap-3 p-4">
-              <p className="text-[#0e141b] tracking-light text-[32px] font-bold leading-tight min-w-72">My Charges</p>
+              <p className="text-[#0e141b] tracking-light text-[32px] font-bold leading-tight min-w-72">Residents</p>
             </div>
             <div className="px-4 py-3 @container">
               <div className="flex overflow-hidden rounded-lg border border-[#d0dbe7] bg-slate-50">
                 <table className="flex-1">
                   <thead>
                     <tr className="bg-slate-50">
-                      <th className="table-ebad5f0f-e09f-425b-8658-67b183976f8c-column-120 px-4 py-3 text-left text-[#0e141b] w-[400px] text-sm font-medium leading-normal">Charge</th>
-                      <th className="table-ebad5f0f-e09f-425b-8658-67b183976f8c-column-240 px-4 py-3 text-left text-[#0e141b] w-[400px] text-sm font-medium leading-normal">Amount</th>
-                      <th className="table-ebad5f0f-e09f-425b-8658-67b183976f8c-column-360 px-4 py-3 text-left text-[#0e141b] w-60 text-sm font-medium leading-normal">Status</th>
-                      <th className="table-ebad5f0f-e09f-425b-8658-67b183976f8c-column-480 px-4 py-3 text-left text-[#0e141b] w-[400px] text-sm font-medium leading-normal">Due Date</th>
+                      <th className="px-4 py-3 text-left text-[#0e141b] w-[400px] text-sm font-medium leading-normal">Name</th>
+                      <th className="px-4 py-3 text-left text-[#0e141b] w-[400px] text-sm font-medium leading-normal">Unit</th>
+                      <th className="px-4 py-3 text-left text-[#0e141b] w-[400px] text-sm font-medium leading-normal">Phone</th>
+                      <th className="px-4 py-3 text-left text-[#0e141b] w-60 text-sm font-medium leading-normal">Status</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {charges.map((c, i) => (
+                    {residents.map((r, i) => (
                       <tr key={i} className="border-t border-t-[#d0dbe7]">
-                        <td className="table-ebad5f0f-e09f-425b-8658-67b183976f8c-column-120 h-[72px] px-4 py-2 w-[400px] text-[#0e141b] text-sm font-normal leading-normal">{c.charge}</td>
-                        <td className="table-ebad5f0f-e09f-425b-8658-67b183976f8c-column-240 h-[72px] px-4 py-2 w-[400px] text-[#4e7097] text-sm font-normal leading-normal">{c.amount}</td>
-                        <td className="table-ebad5f0f-e09f-425b-8658-67b183976f8c-column-360 h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
+                        <td className="h-[72px] px-4 py-2 w-[400px] text-[#4e7097] text-sm font-normal leading-normal">{r.name}</td>
+                        <td className="h-[72px] px-4 py-2 w-[400px] text-[#4e7097] text-sm font-normal leading-normal">{r.unit}</td>
+                        <td className="h-[72px] px-4 py-2 w-[400px] text-[#4e7097] text-sm font-normal leading-normal">{r.phone}</td>
+                        <td className="h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
                           <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 bg-[#e7edf3] text-[#0e141b] text-sm font-medium leading-normal w-full">
-                            <span className="truncate">{c.status}</span>
+                            <span className="truncate">{r.status}</span>
                           </button>
                         </td>
-                        <td className="table-ebad5f0f-e09f-425b-8658-67b183976f8c-column-480 h-[72px] px-4 py-2 w-[400px] text-[#4e7097] text-sm font-normal leading-normal">{c.due}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-              <style>{`
-                @container(max-width:120px){.table-ebad5f0f-e09f-425b-8658-67b183976f8c-column-120{display: none;}}
-                @container(max-width:240px){.table-ebad5f0f-e09f-425b-8658-67b183976f8c-column-240{display: none;}}
-                @container(max-width:360px){.table-ebad5f0f-e09f-425b-8658-67b183976f8c-column-360{display: none;}}
-                @container(max-width:480px){.table-ebad5f0f-e09f-425b-8658-67b183976f8c-column-480{display: none;}}
-              `}</style>
             </div>
-            <h2 className="text-[#0e141b] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Upcoming Meetings</h2>
-            {meetings.map((m, i) => (
-              <div key={i} className="flex items-center gap-4 bg-slate-50 px-4 min-h-[72px] py-2">
-                <div className="text-[#0e141b] flex items-center justify-center rounded-lg bg-[#e7edf3] shrink-0 size-12" data-icon="Users" data-size="24px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,55.53,105.64,95.83,95.83,0,0,1,47.22,37.71A8,8,0,0,1,250.14,206.7Z" />
-                  </svg>
-                </div>
-                <div className="flex flex-col justify-center">
-                  <p className="text-[#0e141b] text-base font-medium leading-normal line-clamp-1">{m.title}</p>
-                  <p className="text-[#4e7097] text-sm font-normal leading-normal line-clamp-2">{m.date}</p>
-                </div>
-              </div>
-            ))}
-            <h2 className="text-[#0e141b] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Documents</h2>
-            {documents.map((d, i) => (
-              <div key={i} className="flex items-center gap-4 bg-slate-50 px-4 min-h-[72px] py-2">
-                <div className="text-[#0e141b] flex items-center justify-center rounded-lg bg-[#e7edf3] shrink-0 size-12" data-icon="File" data-size="24px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Z" />
-                  </svg>
-                </div>
-                <div className="flex flex-col justify-center">
-                  <p className="text-[#0e141b] text-base font-medium leading-normal line-clamp-1">{d.name}</p>
-                  <p className="text-[#4e7097] text-sm font-normal leading-normal line-clamp-2">Uploaded on {d.uploaded}</p>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </div>
@@ -192,4 +144,4 @@ function Charges() {
   );
 }
 
-export default Charges; 
+export default Residents; 

@@ -60,7 +60,7 @@ export default function AdminDashboard() {
                     </div>
                     <p className="text-[#0e141b] text-sm font-medium leading-normal">Incidents</p>
                   </Link>
-                  <div className="flex items-center gap-3 px-3 py-2">
+                  <Link to="/residents" className={`flex items-center gap-3 px-3 py-2 rounded-lg ${location.pathname === '/residents' ? 'bg-[#e7edf3]' : 'hover:bg-[#e7edf3] transition-colors'}`}>
                     <div className="text-[#0e141b]" data-icon="Users" data-size="24px" data-weight="regular">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
                         <path
@@ -69,8 +69,8 @@ export default function AdminDashboard() {
                       </svg>
                     </div>
                     <p className="text-[#0e141b] text-sm font-medium leading-normal">Residents</p>
-                  </div>
-                  <div className="flex items-center gap-3 px-3 py-2">
+                  </Link>
+                  <Link to="/meetings" className={`flex items-center gap-3 px-3 py-2 rounded-lg ${location.pathname === '/meetings' ? 'bg-[#e7edf3]' : 'hover:bg-[#e7edf3] transition-colors'}`}>
                     <div className="text-[#0e141b]" data-icon="Calendar" data-size="24px" data-weight="regular">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
                         <path
@@ -79,8 +79,8 @@ export default function AdminDashboard() {
                       </svg>
                     </div>
                     <p className="text-[#0e141b] text-sm font-medium leading-normal">Meetings</p>
-                  </div>
-                  <div className="flex items-center gap-3 px-3 py-2">
+                  </Link>
+                  <Link to="/documents" className={`flex items-center gap-3 px-3 py-2 rounded-lg ${location.pathname === '/documents' ? 'bg-[#e7edf3]' : 'hover:bg-[#e7edf3] transition-colors'}`}>
                     <div className="text-[#0e141b]" data-icon="File" data-size="24px" data-weight="regular">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
                         <path
@@ -89,7 +89,7 @@ export default function AdminDashboard() {
                       </svg>
                     </div>
                     <p className="text-[#0e141b] text-sm font-medium leading-normal">Documents</p>
-                  </div>
+                  </Link>
                 </div>
               </div>
               <div className="mt-auto">
